@@ -6,6 +6,9 @@ import hydra
 import aStar
 import data
 import training
+from pytorch_lightning.loggers import CSVLogger
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 @hydra.main(config_path="Configurations", config_name="trainingConfig")
@@ -14,11 +17,11 @@ def main(config):
     baseDirectory = f"{config.logdir}/{os.path.basename(config.dataset)}"
 
     training.set_global_seeds(1234)
-    trainLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/all_064_moore_c16.npz",
+    trainLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/multiple_bugtraps_032_moore_c8.npz",
                                           "train",
                                           100,
                                           shuffle=True)
-    valLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/all_064_moore_c16.npz",
+    valLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/multiple_bugtraps_032_moore_c8.npz",
                                           "valid",
                                           100,
                                           shuffle=False)
@@ -34,14 +37,50 @@ def main(config):
                                          mode="max")
     module = training.PlannerModule(neuralAstar,config)
     logDir = "model/mazes_032_moore_c8"
+
+
+
+
+    lfCallback = LossPlotCallback()
     trainer = pl.Trainer(
         accelerator="gpu" if torch.cuda.is_available() else "cpu",
         log_every_n_steps=1,
         default_root_dir=logDir,
         max_epochs=20,
-        callbacks=[checkpointCallback],
+        callbacks=[checkpointCallback ,lfCallback],
     )
     trainer.fit(module,trainLoader, valLoader)
+    lfCallback.plot_losses()
+
+class LossPlotCallback(pl.Callback):
+    def __init__(self):
+        self.train_losses = []
+        self.val_losses = []
+
+    def on_train_epoch_end(self, trainer, pl_module):
+        if "train_loss" in trainer.callback_metrics:
+            self.train_losses.append(trainer.callback_metrics["train_loss"].item())
+        elif "metrics/train_loss" in trainer.callback_metrics:  # Adjusted for your logger
+            self.train_losses.append(trainer.callback_metrics["metrics/train_loss"].item())
+
+    def on_validation_epoch_end(self, trainer, pl_module):
+        if "val_loss" in trainer.callback_metrics:
+            self.val_losses.append(trainer.callback_metrics["val_loss"].item())
+        elif "metrics/val_loss" in trainer.callback_metrics:  # Adjusted for your logger
+            self.val_losses.append(trainer.callback_metrics["metrics/val_loss"].item())
+
+    def plot_losses(self):
+        import matplotlib.pyplot as plt
+        plt.plot(self.train_losses, label="Train Loss")
+        plt.plot(self.val_losses, label="Validation Loss")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.title("Loss Curve")
+        plt.legend()
+        plt.show()
+
+
+
 
 if __name__ == "__main__":
     main()
