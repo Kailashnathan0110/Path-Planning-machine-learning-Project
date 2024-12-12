@@ -16,7 +16,7 @@ def main():
     problemId = 1
     saveDirectory = "OutputResult"
     os.makedirs(saveDirectory,exist_ok=True)
-    dataLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/MAE551_projTemplate/planning-datasets/data/mpd/mazes_032_moore_c8.npz",
+    dataLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/all_064_moore_c16.npz",
                                         split="test",batch_size=100,shuffle=False,num_starts=1)
     map_designs, start_maps, goal_maps, opt_trajs = next(iter(dataLoader))
     outputs = planner(

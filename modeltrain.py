@@ -14,11 +14,11 @@ def main(config):
     baseDirectory = f"{config.logdir}/{os.path.basename(config.dataset)}"
 
     training.set_global_seeds(1234)
-    trainLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/MAE551_projTemplate/planning-datasets/data/mpd/mazes_032_moore_c8.npz",
+    trainLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/all_064_moore_c16.npz",
                                           "train",
                                           100,
                                           shuffle=True)
-    valLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/MAE551_projTemplate/planning-datasets/data/mpd/mazes_032_moore_c8.npz",
+    valLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/all_064_moore_c16.npz",
                                           "valid",
                                           100,
                                           shuffle=False)
