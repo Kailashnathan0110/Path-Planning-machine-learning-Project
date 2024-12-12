@@ -44,29 +44,6 @@ class NeuralAstar(VanillaAstar):
         const: float = None,
         use_differentiable_astar: bool = True,
     ):
-        """
-        Neural A* search
-
-        Args:
-            g_ratio (float, optional): ratio between g(v) + h(v). Set 0 to perform as best-first search. Defaults to 0.5.
-            Tmax (float, optional): how much of the map the model explores during training. Set a small value (0.25) when training the model. Defaults to 1.0.
-            encoder_input (str, optional): input format. Set "m+" to use the concatenation of map_design and (start_map + goal_map). Set "m" to use map_design only. Defaults to "m+".
-            encoder_arch (str, optional): encoder architecture. Defaults to "CNN".
-            encoder_depth (int, optional): depth of the encoder. Defaults to 4.
-            learn_obstacles (bool, optional): if the obstacle is invisible to the model. Defaults to False.
-            const (float, optional): learnable weight to be multiplied for h(v). Defaults to None.
-            use_differentiable_astar (bool, optional): if the differentiable A* is used instead of standard A*. Defaults to True.
-
-        Examples:
-            >>> planner = NeuralAstar()
-            >>> outputs = planner(map_designs, start_maps, goal_maps)
-            >>> histories = outputs.histories
-            >>> paths = outputs.paths
-
-        Note:
-            For perform inference on a large map, set use_differentiable_astar = False to peform a faster A* with priority queue
-        """
-
         super().__init__()
         self.astar = differentableAStar.DifferentiableAstar(
             g_ratio=g_ratio,
