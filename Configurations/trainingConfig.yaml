@@ -1,7 +1,9 @@
-seed: 1234
-dataset: "C:/Users/Rkail/PycharmProjects/MAE551_projTemplate/planning-datasets/data/mpd/mazes_032_moore_c8"
-logdir: "model"
-Tmax: 0.25
+# Select any one of the training Data (Value) and paste your selection as string at trainingData (Key)
+# 1. multiple_bugtraps_032_moore_c8
+# 2. mixed_064_moore_c16
+# 3. all_064_moore_c16
+
+trainingData: "multiple_bugtraps_032_moore_c8"
 
 encoder:
   input: "m+"

@@ -14,14 +14,14 @@ import matplotlib.pyplot as plt
 @hydra.main(config_path="Configurations", config_name="trainingConfig")
 def main(config):
 
-    baseDirectory = f"{config.logdir}/{os.path.basename(config.dataset)}"
+    training_data_file = f"{config.trainingData}"
 
     training.set_global_seeds(1234)
-    trainLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/multiple_bugtraps_032_moore_c8.npz",
+    trainLoader = data.create_dataloader(f"{training_data_file}.npz",
                                           "train",
                                           100,
                                           shuffle=True)
-    valLoader = data.create_dataloader("C:/Users/Rkail/PycharmProjects/Path-Planning-machine-learning-Project/multiple_bugtraps_032_moore_c8.npz",
+    valLoader = data.create_dataloader(f"{training_data_file}.npz",
                                           "valid",
                                           100,
                                           shuffle=False)
@@ -36,7 +36,7 @@ def main(config):
                                          save_weights_only=True,
                                          mode="max")
     module = training.PlannerModule(neuralAstar,config)
-    logDir = "model/mazes_032_moore_c8"
+    logDir = f"model/{training_data_file}"
 
 
 
@@ -70,7 +70,6 @@ class LossPlotCallback(pl.Callback):
             self.val_losses.append(trainer.callback_metrics["metrics/val_loss"].item())
 
     def plot_losses(self):
-        import matplotlib.pyplot as plt
         plt.plot(self.train_losses, label="Train Loss")
         plt.plot(self.val_losses, label="Validation Loss")
         plt.xlabel("Epoch")
@@ -78,9 +77,5 @@ class LossPlotCallback(pl.Callback):
         plt.title("Loss Curve")
         plt.legend()
         plt.show()
-
-
-
-
 if __name__ == "__main__":
     main()

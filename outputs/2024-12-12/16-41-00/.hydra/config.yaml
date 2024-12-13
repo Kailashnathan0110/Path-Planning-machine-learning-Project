@@ -1,0 +1,9 @@
+trainingData: multiple_bugtraps_032_moore_c8
+encoder:
+  input: m+
+  arch: CNN
+  depth: 4
+params:
+  batch_size: 100
+  num_epochs: 50
+  lr: 0.001
