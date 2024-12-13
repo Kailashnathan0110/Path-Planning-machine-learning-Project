@@ -5,8 +5,7 @@ This is the repository for MAE 551 Applied machine learning for mechanical engin
 ## Project Contributers
 Barath Sundaravadivelan ([bsunda10@asu.edu](mailto:bsunda10@asu.edu)) <br />
 Kailash Nathan Ramahlingem ([kramahli@asu.edu](mailto:kramahli@asu.edu))<br />
-Sahil ()<br />
-Raman Garg ([rnolas60@asu.edu](mailto:rnolas60@asu.edu))<br />
+
 
 ## Initial Setup 
 Please enter the scripts in your terminal to install the conda environment and the necessary prerequisites. Tested in python version 3.9.
