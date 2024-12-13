@@ -13,7 +13,7 @@ def main(config):
                                 encoder_input="m+",
                                 learn_obstacles=False,
                                 Tmax=1.0)
-    planner_nastar.load_state_dict(training.load_from_ptl_checkpoint(f"model/{trained_dataset}"))
+    planner_nastar.load_state_dict(training.load_from_ptl_checkpoint(f"model/multiple_bugtraps_032_moore_c8"))
 
     planner = aStar.VanillaAstar()
     problemId = 1
